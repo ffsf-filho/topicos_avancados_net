@@ -36,30 +36,62 @@ using UsuarioLib;
 
 //Console.WriteLine(sw.Elapsed.TotalMilliseconds);
 
-FormularioDto dto1 = new("Daniel", "11111111111", "Programador")
+//FormularioDto dto1 = new("Daniel", "11111111111", "Programador")
+//{
+//    Idade = 100
+//};
+
+//FormularioDto dto2 = new("Daniel", "11111111111", "Programador")
+//{
+//    Idade = 100
+//};
+
+//Console.WriteLine(dto1 == dto2);
+
+//UsuarioDto dto3 = new()
+//{
+//    Nome = "Daniel",
+//    Email = "daniel@gmail.com",
+//    Telefones = null
+//};
+
+//UsuarioDto dto4 = new()
+//{
+//    Nome = "Daniel",
+//    Email = "daniel@gmail.com",
+//    Telefones = null
+//};
+
+//Console.WriteLine(dto3 == dto4);
+
+Stopwatch sw1 = Stopwatch.StartNew();
+
+for (int i = 0; i < 1000000000; i++)
 {
-    Idade = 100
-};
+    Coordenada coordenada = new(123.456, -123.456);
+    var latitude = coordenada.Latitude;
+    var longitude = coordenada.Longitude;
+}
 
-FormularioDto dto2 = new("Daniel", "11111111111", "Programador")
+sw1.Stop();
+
+Console.WriteLine(sw1.Elapsed.TotalMilliseconds);
+
+sw1.Start();
+
+for (int i = 0; i < 1000000000; i++)
 {
-    Idade = 100
-};
+    //UsuarioDto dto5 = new()
+    //{
+    //    Nome = "Daniel",
+    //    Email = "daniel@gmail.com",
+    //    Telefones = null
+    //};
 
-Console.WriteLine(dto1 == dto2);
+    FormularioDto dto2 = new("Daniel", "11111111111", "Programador", 100);
+    var idade = dto2.Idade;
+    var nome = dto2.Nome;
+}
 
-UsuarioDto dto3 = new()
-{
-    Nome = "Daniel",
-    Email = "daniel@gmail.com",
-    Telefones = null
-};
-
-UsuarioDto dto4 = new()
-{
-    Nome = "Daniel",
-    Email = "daniel@gmail.com",
-    Telefones = null
-};
-
-Console.WriteLine(dto3 == dto4);
+sw1.Stop();
+Console.WriteLine(sw1.Elapsed.TotalMilliseconds);
