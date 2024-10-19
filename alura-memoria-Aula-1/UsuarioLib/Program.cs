@@ -23,15 +23,43 @@ using UsuarioLib;
 //912345678
 //usuario.ExibeTelefones();
 
-Stopwatch sw = Stopwatch.StartNew();
+//Stopwatch sw = Stopwatch.StartNew();
 
-for (int i = 0; i < 1000000000; i++)
+//for (int i = 0; i < 1000000000; i++)
+//{
+//    Coordenada coordenada = new(123.456, -123.456);
+//    var latitude = coordenada.Latitude;
+//    var longitude = coordenada.Longitude;
+//}
+
+//sw.Stop();
+
+//Console.WriteLine(sw.Elapsed.TotalMilliseconds);
+
+FormularioDto dto1 = new("Daniel", "11111111111", "Programador")
 {
-    Coordenada coordenada = new(123.456, -123.456);
-    var latitude = coordenada.Latitude;
-    var longitude = coordenada.Longitude;
-}
+    Idade = 100
+};
 
-sw.Stop();
+FormularioDto dto2 = new("Daniel", "11111111111", "Programador")
+{
+    Idade = 100
+};
 
-Console.WriteLine(sw.Elapsed.TotalMilliseconds);
+Console.WriteLine(dto1 == dto2);
+
+UsuarioDto dto3 = new()
+{
+    Nome = "Daniel",
+    Email = "daniel@gmail.com",
+    Telefones = null
+};
+
+UsuarioDto dto4 = new()
+{
+    Nome = "Daniel",
+    Email = "daniel@gmail.com",
+    Telefones = null
+};
+
+Console.WriteLine(dto3 == dto4);
