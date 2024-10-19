@@ -1,10 +1,11 @@
-﻿using UsuarioLib;
+﻿using System.Diagnostics;
+using UsuarioLib;
 
-Usuario usuario = 
-    new Usuario(
-        "Daniel", 
-        "daniel@email.com",
-        new List<string>() {"12345678"});
+//Usuario usuario = 
+//    new Usuario(
+//        "Daniel", 
+//        "daniel@email.com",
+//        new List<string>() {"12345678"});
 
 //Usuario usuario2 =
 //    new Usuario(
@@ -14,10 +15,23 @@ Usuario usuario =
 
 
 //12345678
-usuario.ExibeTelefones();
+//usuario.ExibeTelefones();
 
 //efetuar a padronização
-usuario.PadronizaTelefones();
+//usuario.PadronizaTelefones();
 
 //912345678
-usuario.ExibeTelefones();
+//usuario.ExibeTelefones();
+
+Stopwatch sw = Stopwatch.StartNew();
+
+for (int i = 0; i < 1000000000; i++)
+{
+    Coordenada coordenada = new(123.456, -123.456);
+    var latitude = coordenada.Latitude;
+    var longitude = coordenada.Longitude;
+}
+
+sw.Stop();
+
+Console.WriteLine(sw.Elapsed.TotalMilliseconds);
