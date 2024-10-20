@@ -37,6 +37,8 @@ static void MostrarMenu()
     Console.WriteLine();
     Console.WriteLine("1. Ler arquivo de boletos");
     Console.WriteLine();
+    Console.WriteLine("2. Gravar arquivos com boletos agrupados por cedente");
+    Console.WriteLine();
     Console.Write("Digite o número da opção desejada: ");
 }
 
@@ -47,11 +49,24 @@ static void ExecutarEscolha(int escolha)
         case 1:
             LerArquivoBoletos();
             break;
-
+        case 2:
+            GravarGrupoBoletos();
+            break;
         default:
             Console.WriteLine("Opção inválida. Tente novamente.");
             break;
     }
+}
+
+static void GravarGrupoBoletos()
+{
+    Console.WriteLine("Gravando arquivo de boletos...");
+
+    var leitorDeBoleto = new LeitorDeBoleto();
+    List<Boleto> boletos = leitorDeBoleto.LerBoletos("Boletos.csv");
+
+    RelatorioDeBoleto gravadorDeCSV = new("BoletosPorCedente.csv");
+    gravadorDeCSV.Processar(boletos);
 }
 
 static void LerArquivoBoletos()
