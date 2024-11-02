@@ -1,6 +1,6 @@
 ﻿namespace ByteBank.Common;
 
-public interface IRelatorioDeBoleto<T>
+public interface IRelatorio<T>
 {
     void Processar(List<T> boletos);
 }

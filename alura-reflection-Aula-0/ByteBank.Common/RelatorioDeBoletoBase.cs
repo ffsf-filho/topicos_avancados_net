@@ -1,70 +1,48 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ByteBank.Common;
 
-[NomeRelatorio("Relatório de boletos agrupados por cedentes")]
-public class RelatorioDeBoleto : IRelatorioDeBoleto<Boleto>
+public abstract class RelatorioDeBoletoBase: IRelatorio<Boleto>
 {
-    private readonly string nomeArquivoSaida;
-    private readonly DateTime dataRelatorio = DateTime.Now;
+    protected readonly string nomeArquivoSaida;
+    protected readonly DateTime dataRelatorio = DateTime.Now;
 
-    public RelatorioDeBoleto(string nomeArquivoSaida, DateTime dataRelatorio)
+    public RelatorioDeBoletoBase(string nomeArquivoSaida, DateTime dataRelatorio)
     {
         this.nomeArquivoSaida = nomeArquivoSaida;
         this.dataRelatorio = dataRelatorio;
     }
 
-    public RelatorioDeBoleto(DateTime dataRelatorio)
+    public RelatorioDeBoletoBase(DateTime dataRelatorio)
     {
         this.dataRelatorio = dataRelatorio;
     }
 
-    public RelatorioDeBoleto(string nomeArquivoSaida)
+    public RelatorioDeBoletoBase(string nomeArquivoSaida)
     {
         this.nomeArquivoSaida = nomeArquivoSaida;
+    }
+
+    public RelatorioDeBoletoBase()
+    {
+            
     }
 
     public void Processar(List<Boleto> boletos)
     {
         var atributoNomeRelatorio = this.GetType().GetCustomAttribute<NomeRelatorioAttribute>();
         Console.WriteLine("========================================================");
-        Console.WriteLine($"Nome: {atributoNomeRelatorio.Nome}");
+        Console.WriteLine($"Nome: {atributoNomeRelatorio!.Nome}");
         Console.WriteLine("========================================================");
 
         var boletosPorCedente = PegaBoletosAgrupados(boletos);
         //Console.WriteLine(JsonConvert.SerializeObject(boletosPorCedente));
         GravarArquivo(boletosPorCedente);
-    }
-
-    private void GravarArquivo(List<BoletosPorCedente> grupos)
-    {
-        // Obter tipo da classe
-        Type tipo = typeof(BoletosPorCedente);
-
-        // Usar Reflection para obter propriedades
-        PropertyInfo[] propriedades = tipo.GetProperties();
-
-        // Escrever os dados no arquivo CSV
-        using (var sw = new StreamWriter(nomeArquivoSaida))
-        {
-            // Escrever cabeçalho
-            var cabecalho = propriedades
-                //.Select(p => p.Name);
-                .Select(p => p.GetCustomAttribute<NomeColunaAttribute>()?.Header
-                ?? p.Name);
-
-            sw.WriteLine(string.Join(',', cabecalho));
-
-            // Escrever linhas do relatório
-            foreach (var grupo in grupos)
-            {
-                var valores = propriedades.Select(p => p.GetValue(grupo));
-                sw.WriteLine(string.Join(',', valores));
-            }
-        }
-
-        Console.WriteLine($"Arquivo '{nomeArquivoSaida}' criado com sucesso!");
     }
 
     private List<BoletosPorCedente> PegaBoletosAgrupados(List<Boleto> boletos)
@@ -101,4 +79,6 @@ public class RelatorioDeBoleto : IRelatorioDeBoleto<Boleto>
 
         return boletosPorCedenteList;
     }
+
+    protected abstract void GravarArquivo(List<BoletosPorCedente> grupos);
 }
