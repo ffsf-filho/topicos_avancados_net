@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Reflection;
 
 namespace ByteBank.Common;
 
-public abstract class RelatorioDeBoletoBase: IRelatorio<Boleto>
+public abstract class RelatorioDeBoletoBase : IRelatorio<Boleto>
 {
     protected readonly string nomeArquivoSaida;
     protected readonly DateTime dataRelatorio = DateTime.Now;
@@ -30,7 +25,7 @@ public abstract class RelatorioDeBoletoBase: IRelatorio<Boleto>
 
     public RelatorioDeBoletoBase()
     {
-            
+
     }
 
     public void Processar(List<Boleto> boletos)

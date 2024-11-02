@@ -133,7 +133,7 @@ static void ExecutarPlugins()
         var plugin = Activator.CreateInstance(classe);
 
         // Chamar o método Processar usando Reflection
-        MethodInfo metodoSalvar = classe.GetMethod("Processar");
+        MethodInfo metodoSalvar = classe.GetMethod("Processar")!;
         metodoSalvar!.Invoke(plugin, new object[] { boletos });
     }
 }
@@ -148,6 +148,21 @@ static List<Type> ObterClassesDePlugin<T>()
     //Pegar o asembly onde um tipo é declarado
     Assembly assemblyDosPlugins = typeof(T).Assembly;
 
+    var assemblies = ObterAssembliesDePlugins();
+
+    foreach (var assembly in assemblies)
+    {
+        Console.WriteLine($"Assembly encontrado: {assembly.FullName}");
+        IEnumerable<Type> tiposImplementandoT = ObterTiposDoAssembly<T>(assembly);
+
+        tiposEncontrados.AddRange(tiposImplementandoT);
+    }
+
+    return tiposEncontrados;
+}
+
+static IEnumerable<Type> ObterTiposDoAssembly<T>(Assembly assemblyDosPlugins)
+{
     //Descobre todos os tipos do assembly
     var tipos = assemblyDosPlugins.GetTypes();
 
@@ -169,8 +184,23 @@ static List<Type> ObterClassesDePlugin<T>()
 
     //Encontrar tipos que implementam a interface T
     var tiposImplementandoT = tipos.Where(t => typeof(T).IsAssignableFrom(t) && t.IsClass && !t.IsAbstract);
+    return tiposImplementandoT;
+}
 
-    tiposEncontrados.AddRange(tiposImplementandoT);
+static List<Assembly> ObterAssembliesDePlugins()
+{
+    var assemblies = new List<Assembly>();
+    const string diretorio = @"C:\Plugins";
 
-    return tiposEncontrados;
+    //Obter todos os arquivos .dll na pasta
+    string[] arquivosDLL = Directory.GetFiles(diretorio, "*.dll");
+
+    foreach (var arquivoDll in arquivosDLL)
+    {
+        //Carregar o assembly a partir do arquivo DLL
+        var assembly = Assembly.LoadFrom(arquivoDll);
+        assemblies.Add(assembly);
+    }
+
+    return assemblies;
 }
