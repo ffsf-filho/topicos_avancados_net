@@ -13,7 +13,7 @@
     {
         Console.WriteLine("[Inicio] - Metodo2");
 
-        Usuario usuario = null;
+        Usuario usuario = new Usuario("Fábio");
 
         Console.WriteLine(usuario.Nome);
 
