@@ -3,8 +3,14 @@
     public static void Metodo1()
     {
         Console.WriteLine("[Inicio] - Metodo1");
-
-        Metodo2();
+        try
+        {
+            Metodo2();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine ($"Erro ao chamar método 2!\n{ex.ToString()}");
+        }
        
         Console.WriteLine("[Fim] - Metodo1");
     }
@@ -13,9 +19,16 @@
     {
         Console.WriteLine("[Inicio] - Metodo2");
 
-        Usuario usuario = new Usuario("Fábio");
+        Usuario usuario = null;
 
-        Console.WriteLine(usuario.Nome);
+        try
+        {
+            Console.WriteLine(usuario.Nome);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Usuário foi instanciado de forma nula!\n{ex.Message}");
+        }
 
         Console.WriteLine("[Fim] - Metodo2");
     }
@@ -31,7 +44,6 @@
         {
             Console.WriteLine("Falha ao chamar método 1" + ex.Message);  
         }
-        
 
         Console.WriteLine("[Fim] - Main");
     }
