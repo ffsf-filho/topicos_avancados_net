@@ -1,4 +1,5 @@
 ﻿using Adopet.Dtos;
+using Adopet.Excepitions;
 using Adopet.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,8 +33,23 @@ public class AdocaoController : ControllerBase
     [HttpPost]
     public IActionResult Solicitar([FromBody] SolicitacaoDeAdocaoDto dados)
     {
-        _acaoService.Solicitar(dados);
-        return Ok("Adoção solicitada com sucesso!");
+        try
+        {
+            _acaoService.Solicitar(dados);
+            return Ok("Adoção solicitada com sucesso!");
+        }
+        catch (NullReferenceException ex)
+        {
+            return NotFound($"Falha ao encontar objeto solicitado!\n{ex.Message}");
+        }
+        catch (Exception ex) when (ex is PetEmProcessoDeAdocaoException || ex is PetAdotadoException || ex is TutorComLimiteAtigindoException)
+        {
+            return BadRequest($"Houve um problema no processo de adoção!\n{ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, $"Falha interna na aplicação!\n{ex.Message}");
+        }
     }
 
     [HttpPut("aprovar")]
