@@ -41,7 +41,7 @@ public class AdocaoService
 
         if (pet.Adotado)
         {
-            throw new PetAdotadoException("Pet já foi adotado" );
+            throw new PetAdotadoException("Pet já foi adotado", new ApplicationException() );
         } 
         
         if(_adocaoRepository.ExistsByPetIdAndStatus(pet.Id, StatusAdocao.AGUARDANDO_AVALIACAO))

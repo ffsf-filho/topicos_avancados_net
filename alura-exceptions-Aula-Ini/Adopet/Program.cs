@@ -1,4 +1,5 @@
 using Adopet.Data;
+using Adopet.Excepitions.Handlers;
 using Adopet.Repositories;
 using Adopet.Services;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +23,13 @@ builder.Services.AddScoped<PetService>();
 builder.Services.AddScoped<TutorService>();
 builder.Services.AddScoped<ImageStorageService>();
 
+builder.Services.AddExceptionHandler<NullReferenceExceptionHandler>();
+builder.Services.AddExceptionHandler<AdocaoExceptionHandler>();
+builder.Services.AddExceptionHandler<ExceptionHandler>();
+
 var app = builder.Build();
+
+app.UseExceptionHandler(_ => { });
 
 app.UseHttpsRedirection();
 app.MapControllers();
