@@ -43,6 +43,17 @@ app.MapGet("/voos", async ([FromServices]JornadaMilhasContext context) => {
 
 }).WithTags("Voos").WithSummary("Lista os vôos cadastrados.").WithOpenApi();
 
+app.MapGet("/voos/{id}", async ([FromServices] JornadaMilhasContext context, int id) => 
+{
+    var voo = await context.Voos.FindAsync(id);
+    if(voo is null)
+    {
+        return Results.NotFound();
+    }
+
+    return Results.Ok(await Task.FromResult(voo));
+}).WithTags("Voos").WithSummary("Retorna o vôo com o id cadastrado.").WithOpenApi(); ;
+
 app.MapPost("/voos/comprar",async([FromServices]JornadaMilhasContext context, [FromBody] CompraPassagemRequest request) =>
 {
     var mensagemCompra = $"Passagem comprada origem: {request.Origem} com destino: {request.Destino} com milhas {request.Milhas}";
