@@ -1,4 +1,5 @@
 ﻿using dotnet_async.Client;
+using dotnet_async.Modelos;
 
 #region Programação Assincrona
 //object chave = new object();
@@ -101,3 +102,14 @@ async Task ProcessarConsultaDeVoosAsync()
 }
 
 await ProcessarConsultaDeVoosAsync();
+
+async Task ComprarPassagemAsync()
+{
+    var compraPassagemRequest = new CompraPassagemRequest() { Origem = "Vitória", Destino = "Belém", Milhas = 1000 };
+
+    var resultado = client.ComprarPassagem(compraPassagemRequest);
+
+    Console.WriteLine(resultado.Result);
+}
+
+await ComprarPassagemAsync();
