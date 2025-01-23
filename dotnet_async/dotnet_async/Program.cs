@@ -1,26 +1,90 @@
-﻿Task<string> conteudoTask = Task.Run(() => File.ReadAllText(".voos.txt"));
+﻿using dotnet_async;
+using System.Text.Json;
+using System;
+using System.Diagnostics;
 
-void LerArquivo()
+//object chave = new object();
+//Task<string> conteudoTask;
+
+//lock(chave)
+//{
+//    conteudoTask = Task.Run(() => File.ReadAllTextAsync("voos.txt"));
+//}
+
+//async Task LerArquivoAsync(CancellationToken token)
+//{
+//	try
+//	{
+//        await Task.Delay(new Random().Next(300, 8000));
+//        Console.WriteLine($"Conteúdo: \n{conteudoTask.Result}");
+//		token.ThrowIfCancellationRequested();
+//    }
+//    catch (OperationCanceledException ex)
+//    {
+//        Console.WriteLine($"Tarefa Cancelada: {ex.Message}");
+//    }
+//    catch (AggregateException ex)
+//	{
+//        Console.WriteLine($"Aconteceu o erro: {ex.InnerException!.Message}");
+//	}
+//}
+
+async Task<List<Voo>> LerVoosDoArquivoJsonAsync(string caminhoArquivo)
 {
-	try
-	{
-        Task.Delay(new Random().Next(300, 8000));
-        Console.WriteLine($"Conteúdo: \n{conteudoTask.Result}");
+    using (var stream = new FileStream(caminhoArquivo, FileMode.Open, FileAccess.Read))
+    {
+        return await JsonSerializer.DeserializeAsync<List<Voo>>(stream);
     }
-	catch (AggregateException ex)
-	{
-        Console.WriteLine($"Aconteceu o erro: {ex.InnerException!.Message}");
-	}
+
 }
 
-void ExibirRelatorio()
+//async Task ExibirRelatorioAsync(CancellationToken token)
+//{
+//	try
+//	{
+//        Console.WriteLine("Executando relatório de compra de passagens!");
+//        await Task.Delay(new Random().Next(300, 8000));
+//        token.ThrowIfCancellationRequested();
+//    }
+//	catch (OperationCanceledException ex)
+//	{
+//        Console.WriteLine($"Tarefa Cancelada: {ex.Message}");
+//	}
+
+//}
+
+async Task ProcessarVooAsync(Voo voo)
 {
-    Console.WriteLine("Executando relatório de compra de passagens!");
-    Task.Delay(new Random().Next(300, 8000));
+    // Simulação de algum processamento assíncrono (ex: gravação em banco, envio de email, etc.)
+    await Task.Delay(1000); // Simula um atraso de 1 segundo para cada voo
+    Console.WriteLine($"Voo: {voo.Id}, Origem: {voo.Origem}, Destino: {voo.Destino}, Preço: {voo.Preco}, Milhas: {voo.MilhasNecessarias}");
 }
 
-Task task1 = Task.Run(() => LerArquivo());
-Task task2 = Task.Run(() => ExibirRelatorio());
+async Task ProcessarVoosAsync()
+{
+    string caminhoArquivo = AppDomain.CurrentDomain.BaseDirectory.ToString().Replace("\\bin\\Debug\\net9.0\\", "\\voos.json");
+    //string caminhoArquivo = "\\voos.json";
+    var voos = await LerVoosDoArquivoJsonAsync(caminhoArquivo);
 
-Console.WriteLine("Outras operações.");
+    var tarefas = new List<Task>();
+
+    foreach (var voo in voos)
+    {
+        // Processa cada voo de forma assíncrona
+        tarefas.Add(ProcessarVooAsync(voo));
+    }
+
+    // Aguarda todas as tarefas terminarem
+    await Task.WhenAll(tarefas);
+}
+
+await ProcessarVoosAsync();
+
+//CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+
+//Task tarefa = Task.WhenAll(LerArquivoAsync(cancellationTokenSource.Token), ExibirRelatorioAsync(cancellationTokenSource.Token));
+//await Task.Delay(1000).ContinueWith(_ => cancellationTokenSource.Cancel());
+
+
+//Console.WriteLine("Outras operações.");
 Console.ReadKey();
