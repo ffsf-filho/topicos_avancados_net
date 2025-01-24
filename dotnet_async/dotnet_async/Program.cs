@@ -93,12 +93,23 @@ var client = new JornadaMilhasClient(new JornadaMilhasClientFactory().CreateClie
 
 async Task ProcessarConsultaDeVoosAsync()
 {
-    var voos = await client.ConsultarVoos();
-
-    foreach (var voo in voos)
+    try
     {
-        Console.WriteLine(voo.ToString());
+        CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+        cancellationTokenSource.Cancel();
+
+        var voos = await client.ConsultarVoosAsync(cancellationTokenSource.Token);
+
+        foreach (var voo in voos!)
+        {
+            Console.WriteLine(voo.ToString());
+        }
     }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Tarefa cancelada: {ex.Message}");
+    }
+
 }
 
 await ProcessarConsultaDeVoosAsync();
@@ -107,9 +118,9 @@ async Task ComprarPassagemAsync()
 {
     var compraPassagemRequest = new CompraPassagemRequest() { Origem = "Vitória", Destino = "Belém", Milhas = 1000 };
 
-    var resultado = client.ComprarPassagem(compraPassagemRequest);
+    var resultado = client!.ComprarPassagemAsync(compraPassagemRequest);
 
-    Console.WriteLine(resultado.Result);
+    Console.WriteLine(await Task.FromResult(resultado.Result));
 }
 
 await ComprarPassagemAsync();
