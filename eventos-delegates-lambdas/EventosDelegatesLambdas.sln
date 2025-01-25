@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ByteBank.CaixaEletronico", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ByteBank.WebApi", "Aula5\ByteBank.WebApi\ByteBank.WebApi.csproj", "{6B44215F-5601-4384-A3A2-272D861C9B79}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormsApp1", "Aula3\WinFormsApp1\WinFormsApp1.csproj", "{5EFE2967-7496-40EA-95C8-5299000B8399}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,10 @@ Global
 		{6B44215F-5601-4384-A3A2-272D861C9B79}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B44215F-5601-4384-A3A2-272D861C9B79}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B44215F-5601-4384-A3A2-272D861C9B79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EFE2967-7496-40EA-95C8-5299000B8399}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EFE2967-7496-40EA-95C8-5299000B8399}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EFE2967-7496-40EA-95C8-5299000B8399}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EFE2967-7496-40EA-95C8-5299000B8399}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -66,6 +72,7 @@ Global
 		{E136473C-9F43-4D25-84F8-1C1BA162F572} = {CFC4AE99-BA2F-467C-9ED3-9114B6A87A3F}
 		{1C8E0BFE-5D43-40E7-9EC6-71E36E40633D} = {B60ECD0B-B90F-43B3-9525-F20C7A24B69E}
 		{6B44215F-5601-4384-A3A2-272D861C9B79} = {B60ECD0B-B90F-43B3-9525-F20C7A24B69E}
+		{5EFE2967-7496-40EA-95C8-5299000B8399} = {A9B28C98-3CAF-4BED-BBAD-C8892FD74A88}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A43E9414-989E-45E4-B49C-0B2FCE0C609F}
