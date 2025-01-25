@@ -9,6 +9,19 @@
             InitializeComponent();
             caixaEletronico = new CaixaEletronico();
             ImprimirLogo();
+            btnSacar.Click += BtnSacar_Click;
+            btnDepositar.Click += BtnDepositar_Click;
+            btnSaldo.Click += BtnSaldo_Click;
+            btnExtrato.Click += BtnExtrato_Click;
+
+            caixaEletronico.OnDeposito += CaixaEletronico_OnDeposito;
+            caixaEletronico.OnSaque += CaixaEletronico_OnSaque;
+            caixaEletronico.OnSaldoInsuficiente += CaixaEletronico_OnSaldoInsuficiente;
+        }
+
+        private void CaixaEletronico_OnSaldoInsuficiente(object sender, TransacaoEventArgs e)
+        {
+            WriteToConsole($"Saldo insuficiente. Você tentou sacar {e.ValorTransacao} mas o saldo era {e.Saldo}");
         }
 
         private void ImprimirLogo()
@@ -104,6 +117,16 @@
             txtConsole.Text += Environment.NewLine;
             txtConsole.SelectionStart = txtConsole.TextLength;
             txtConsole.ScrollToCaret();
+        }
+
+        private void btnNumero_Click(object sender, EventArgs e)
+        {
+            //1. Obter o objeto do botão que está emitindo o evento
+            Button? btn = sender as Button;
+            //2. Obter o numeral que o botão representa
+            char? numeral = btn?.Name.Last();
+            //3. Adicionar o numeral ao visor
+            txtValor.Text += numeral;
         }
     }
 }
